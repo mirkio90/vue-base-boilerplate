@@ -1,64 +1,64 @@
-// The Vue build version to load with the `import` command
-// (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import './assets/bootstrap.min.css';
-import 'nprogress/nprogress.css';
-import 'bootstrap';
-import 'open-iconic/font/css/open-iconic-bootstrap.css';
-import 'vue2-dropzone/dist/vue2Dropzone.css';
-import 'material-design-icons/iconfont/material-icons.css';
 
 import Vue from 'vue';
-import App from './App';
-import router from '@/router';
-import http from './services/http';
+import App from './App.vue';
 
-import Breadcrumb from '@/components/custom/Breadcrumb';
-Vue.component('breadcrumb', Breadcrumb);
-
-import AlertMessage from '@/components/custom/AlertMessage';
-Vue.component('alertMessage', AlertMessage);
-
-import { Pagination } from 'vue-pagination-2';
-Vue.component('pagination', Pagination);
-
+import VueProgressBar from 'vue-progressbar';
 import Toasted from 'vue-toasted';
-Vue.use(Toasted, {
-  iconPack: 'material', // set your iconPack, defaults to material. material|fontawesome
-  position: 'top-right',
-  duration: 5000,
-  theme: 'primary',
-  icon: {
-    name: 'check',
-    after: true // this will append the icon to the end of content
-  }
-});
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { fas } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import BootstrapVue from 'bootstrap-vue'
+import VueBootstrapTypeahead from 'vue-bootstrap-typeahead'
+
+import router from './core/router';
+import store from './store/index';
+import http from './core/http';
+
+import 'bootstrap/dist/css/bootstrap.css';
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+import 'material-design-icons/iconfont/material-icons.css';
+import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+import './assets/fontAwesome/faall.css';
+import './assets/fontAwesome/fasolid.css';
+import './assets/bootstrap.custom.min.css';
+import './assets/custom.css';
+
+import './core/globalMixin';
+import './core/filter';
+import './core/mask';
+
+library.add(fas);
+
+Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.component('vue-bootstrap-typeahead', VueBootstrapTypeahead)
+
+Vue.use(BootstrapVue);
 
 Vue.prototype.$http = http;
+
 Vue.config.productionTip = false;
 
-Vue.prototype.$custom = {
-  success: {
-    type: 'success',
-    icon: 'check'
+Vue.use(Toasted, {
+  iconPack: 'fontawesome', // set your iconPack, defaults to material. material|fontawesome
+  position: 'top-right',
+  duration: 5000,
+  // theme: 'primary',
+  // theme: 'bubble',
+  theme: 'outline',
+  icon: {
+    name: 'done',
+    after: true, // this will append the icon to the end of content
   },
-  error: {
-    type: 'error',
-    icon: 'close'
-  },
-  pagOpts: {
-    texts: {
-      count:
-        'Exibindo do {from} até {to} de {count} registros|{count} registros|1 registro',
-      first: 'Primeira',
-      last: 'Última'
-    }
-  }
-};
-
-/* eslint-disable no-new */
-new Vue({
-  el: '#app',
-  router,
-  components: { App },
-  template: '<App/>'
 });
+
+Vue.use(VueProgressBar, {
+  color: 'blue',
+  failedColor: 'red',
+  height: '2px',
+});
+
+export default new Vue({
+  router,
+  store,
+  render: h => h(App),
+}).$mount('#app');

@@ -14,28 +14,37 @@ app.get('/api/', function(req, res, next) {
 });
 
 var config = require('./config');
+
+// DB Initialization
 var mongoose = require('mongoose');
 
+
 mongoose.Promise = global.Promise;
-mongoose.connect(config.database, {
-  keepAlive: true,
-  reconnectTries: Number.MAX_VALUE,
-  useMongoClient: true
-});
-/*Seed - rota para cadastrar o admin no banco*/
-app.use('/api/fixture', require('./app/usuario/fixture'));
+mongoose.connect(
+  config.database,
+  {
+    keepAlive: true,
+    reconnectTries: Number.MAX_VALUE,
+    useMongoClient: true
+  }
+);
 
-/*Login de Usuarios*/
-app.use('/api/', require('./app/usuario/auth'));
+// Routes
+/*Admin initialize*/
+app.use('/api/fixture', require('./app/user/fixture'));
 
-/*Mid para rotas da API verificar JWT*/
+
+/*Users Login*/
+app.use('/api/', require('./app/user/auth'));
+
+/*Routes verified by JWT*/
 var jwt = require('./core/jwt');
 app.use('/api/v1', jwt);
 
-/*Modulos*/
-jwt.use('/users', require('./app/usuario'));
-jwt.use('/anime', require('./app/anime'));
-jwt.use('/manga', require('./app/manga'));
+/*JWT Middleware*/
+jwt.use('/upload', require('./app/upload'));
+jwt.use('/users', require('./app/user'));
+jwt.use('/clients', require('./app/client'));
 
 var id = Number(process.env.id);
 var hit = 0;

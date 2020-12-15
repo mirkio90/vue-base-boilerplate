@@ -1,25 +1,12 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-import ls from 'local-storage'
+import Vue from 'vue';
+import Vuex from 'vuex';
 
-Vue.use(Vuex)
+import auth from './modules/auth';
 
-const state = {
-  isLogged: !!ls('token')
-}
-
-const mutations = {
-  LOGIN_USER(state) {
-    state.isLogged = true
-  },
-
-  LOGOUT_USER(state) {
-    state.isLogged = false
-  }
-}
+Vue.use(Vuex);
 
 export default new Vuex.Store({
-  strict: process.env.NODE_ENV !== 'production',
-  state,
-  mutations
-})
+  modules: {
+    auth,
+  },
+});

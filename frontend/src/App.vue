@@ -1,47 +1,31 @@
 <template>
-  <div>
-    <app-nav></app-nav>
+  <div id="app">
 
-    <div id="app" class="container">
-      <router-view/>
-    </div>
+    <my-nav></my-nav>
+    <router-view class="container-fluid"/>
+    <vue-progress-bar></vue-progress-bar>
+
   </div>
 </template>
 
-<script>
-import store from '@/store';
-import AppNav from '@/components/custom/Nav';
-
-export default {
-  name: 'App',
-  components: {
-    AppNav
-  },
-  beforeCreate() {
-    if (!store.state.isLogged) {
-      this.$router.push('/login');
-    }
-  }
-};
-</script>
-
 <style>
-#nprogress .bar {
-  background: #29d;
+  #app {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+  }
+  #nav {
+    padding: 30px;
+  }
 
-  position: fixed;
-  z-index: 1031;
-  top: 0;
-  left: 0;
+  #nav a {
+    font-weight: bold;
+    color: #2c3e50;
+  }
 
-  width: 100%;
-  height: 4px;
-}
-
-.img {
-  height: 75px;
-  width: 75px;
-}
+  #nav a.router-link-exact-active {
+    color: #42b983;
+  }
 </style>
-
-
